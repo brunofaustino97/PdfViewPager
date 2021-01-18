@@ -8,18 +8,24 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <TextView
-            android:id="@+id/textView1"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/txt1"/>
-
-        <TextView
-            android:id="@+id/txtFlatIcon"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/flaticon_attr"
-            android:autoLink="web"/>
+            android:orientation="horizontal"
+            android:weightSum="100">
+            <Button
+                android:id="@+id/loadFile"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:text="Load File"/>
+            <Button
+                android:id="@+id/deepLink"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:text="DeepLink"/>
+        </LinearLayout>
 
         <es.voghdev.pdfviewpager.library.PDFViewPager
             android:id="@+id/pdfViewPager"

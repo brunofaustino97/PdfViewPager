@@ -19,11 +19,16 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
+
+import java.io.File;
 
 import es.voghdev.pdfviewpager.library.PDFViewPager;
 import es.voghdev.pdfviewpager.library.adapter.BasePDFPagerAdapter;
@@ -32,16 +37,44 @@ import es.voghdev.pdfviewpager.library.adapter.PDFPagerAdapter;
 public class MainActivity extends BaseSampleActivity {
     PDFViewPager pdfViewPager;
     BasePDFPagerAdapter adapter;
+    Button btnLoad, btnDeepLink;
 
     final int REQUEST_CODE = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(R.string.std_example);
+        setTitle("MainAppPdf");
         setContentView(R.layout.activity_main);
 
+        btnLoad = findViewById(R.id.loadFile);
+        btnDeepLink = findViewById(R.id.deepLink);
         pdfViewPager = findViewById(R.id.pdfViewPager);
+
+        btnLoad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requestPermissionsThenOpen(AssetOnSDActivity.class);
+            }
+        });
+        btnDeepLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                File pdfFolder = new File(Environment.getExternalStorageDirectory(),"teste");
+
+                Intent i;
+                PackageManager manager = getPackageManager();
+                try {
+                    i = manager.getLaunchIntentForPackage("printingapp.mobile");
+                    if (i == null)
+                        throw new PackageManager.NameNotFoundException();
+                    i.addCategory(Intent.CATEGORY_LAUNCHER);
+                    i.putExtra("folder",pdfFolder.getAbsolutePath());
+                    startActivity(i);
+                } catch (PackageManager.NameNotFoundException e) {
+                }
+            }
+        });
 
         adapter = new PDFPagerAdapter(this, "sample.pdf");
         pdfViewPager.setAdapter(adapter);

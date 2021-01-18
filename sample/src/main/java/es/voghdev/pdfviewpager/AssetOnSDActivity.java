@@ -40,7 +40,7 @@ public class AssetOnSDActivity extends BaseSampleActivity {
         setTitle(R.string.asset_on_sd);
         setContentView(R.layout.activity_asset_on_sd);
 
-        pdfFolder = Environment.getExternalStorageDirectory();
+        pdfFolder = new File(Environment.getExternalStorageDirectory(),"teste");
         copyAssetsOnSDCard();
     }
 
